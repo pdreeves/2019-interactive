@@ -20,3 +20,8 @@
       user:
         name: webDeveloper
         comment: Web developer user
+
+    - name: Install screen and tcpump
+      yum:
+        name: ['screen', 'tcpdump']
+        state: latest
