@@ -10,3 +10,13 @@
       yum:
         name: epel-release
         state: latest
+
+    - name: Update Container
+      yum:
+        name: "*"
+        state: latest
+
+    - name: Add web developer user
+      user:
+        name: webDeveloper
+        comment: Web developer user
