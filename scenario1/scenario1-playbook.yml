@@ -25,3 +25,9 @@
       yum:
         name: ['screen', 'tcpdump']
         state: latest
+
+    - name: Set hostname
+      hostname:
+        name: "{{ansible_host}}"
+
+    
