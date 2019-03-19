@@ -11,7 +11,7 @@
         name: epel-release
         state: latest
 
-    - name: Update Container
+    - name: Update Server
       yum:
         name: "*"
         state: latest
