@@ -1,0 +1,12 @@
+---
+
+- name: Base Configuration #name of the playbook being run
+  hosts: all #what groups in the inventory.yml file we want to execute this playbook on
+  gather_facts: false #wether we want to gather facts
+  become: true
+  tasks: #tasks defined in this playbook
+
+    - name: Install EPEL
+      yum:
+        name: epel-release
+        state: latest
