@@ -21,6 +21,12 @@
         name: webDeveloper
         comment: Web developer user
 
+    - name: Add SSH Key Login
+      authorized_key:
+        user: "{{ansible_user}}"
+        state: present
+        key: "{{lookup('file', ./sshKeyPair/interactive.pub)}} "
+
     - name: Install screen and tcpump
       yum:
         name: ['screen', 'tcpdump']
@@ -29,5 +35,3 @@
     - name: Set hostname
       hostname:
         name: "{{ansible_host}}"
-
-    
