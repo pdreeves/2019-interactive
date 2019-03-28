@@ -75,8 +75,11 @@ ansible web1 -i inventory.yml -a "yum list installed" --extra-vars '{ "ansible_s
 1. Execute the playbook to configure the firewall
 ansible-playbook -i inventory.yml scenarios/scenario5-playbook-web1-firewall.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
 
-2. Execute the playbook to configure to remove that unknown user
+2. Execute the playbook to configure to remove the unwanted user
 ansible-playbook -i inventory.yml scenarios/scenario5-playbook-web1-user.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+
+3. Execute the playbook to configure to remove the unwanted package
+ansible-playbook -i inventory.yml scenarios/scenario5-playbook-web1-packages.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
 
 ## Useful commands
 ### Clear out lab
