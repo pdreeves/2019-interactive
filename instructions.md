@@ -7,7 +7,7 @@
 
 1. Start Splunk container
 
-docker container run --detach --hostname splunk --name splunk --interactive --tty --publish 8000:8000 --env SPLUNK_PASSWORD="newSplunkPassword" pdreeves/2019-interactive-splunk
+docker container run --detach --hostname splunk --name splunk --interactive --tty --publish 8000:8000 --env SPLUNK_PASSWORD="interactive" 2019-interactive-splunk
 
 2. Start web1 container
 
@@ -21,11 +21,6 @@ docker container run --detach --link=splunk --privileged --hostname web2 --name 
 
 docker container run --detach --link=web1 --link=web2 --hostname ansible --name ansible --interactive --tty  --volume /Users:/opt/external 2019-interactive-ansible
 
-5. Verify that the Ansible host can ssh in to the web servers:
-
-ssh web1
-ssh web2
-
 
 # Scenario 1: Base Server Configuration
 
@@ -33,13 +28,18 @@ ssh web2
 
 docker container exec --tty --interactive ansible /bin/bash
 
-2. Navigate to the directory you cloned the git repo to: cd {{insertFilePath}}
+2. Verify that the Ansible host can ssh in to the web servers:
 
-3. Generate an SSH key
+ssh web1
+ssh web2
+
+3. Navigate to the directory you cloned the git repo to: cd {{insertFilePath}}
+
+4. Generate an SSH key
 
 ssh-keygen -f sshKeyPair/interactive -b 2048
 
-4. Execute the first playbook
+5. Execute the first playbook
 
 ansible-playbook -i inventory.yml scenario1/scenario1-playbook.yml --ask-pass
 

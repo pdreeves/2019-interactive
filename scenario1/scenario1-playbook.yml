@@ -92,7 +92,6 @@
       blockinfile:
         path: /opt/splunkforwarder/etc/system/local/outputs.conf
         block: |
-
           [indexAndForward]
           index = false
 
@@ -103,6 +102,22 @@
 
           [tcpout:interactive]
           server=splunk:9997
+
+    - name: Create Splunk Cluster inputs.conf file
+      file:
+        path: /opt/splunkforwarder/etc/system/local/inputs.conf
+        owner: splunk
+        group: splunk
+        mode: 0744
+        state: touch
+
+    - name: Configure Splunk inputs.conf file
+      blockinfile:
+        path: /opt/splunkforwarder/etc/system/local/inputs.conf
+        block: |
+          [monitor:///var/log/yum.log]
+          index = linux
+          sourcetype = syslog
 
     - name: Fix Directory Permissions
       file:
