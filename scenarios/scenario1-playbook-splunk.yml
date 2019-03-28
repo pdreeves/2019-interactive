@@ -1,40 +1,10 @@
 ---
 
-- name: Base Configuration #name of the playbook being run
+- name: Install Splunk UF #name of the playbook being run
   hosts: all #what groups in the inventory.yml file we want to execute this playbook on
   gather_facts: false #wether we want to gather facts
   become: true
   tasks: #tasks defined in this playbook
-
-    - name: Install EPEL
-      yum:
-        name: epel-release
-        state: latest
-
-    - name: Update Server
-      yum:
-        name: "*"
-        state: latest
-
-    - name: Add web developer user
-      user:
-        name: webDeveloper
-        comment: Web developer user
-
-    - name: Add SSH Key Login
-      authorized_key:
-        user: "{{ansible_user}}"
-        state: present
-        key: "{{lookup('file', '{{playbook_dir}}/../sshKeyPair/interactive.pub')}} "
-
-    - name: Install screen and tcpump
-      yum:
-        name: ['screen', 'tcpdump']
-        state: latest
-
-    - name: Set hostname
-      hostname:
-        name: "{{ansible_host}}"
 
     - name: Download Splunk Universal Forward Binary
       get_url:

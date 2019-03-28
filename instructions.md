@@ -33,53 +33,70 @@ docker container exec --tty --interactive ansible /bin/bash
 ssh web1
 ssh web2
 
-3. Navigate to the directory you cloned the git repo to: cd {{insertFilePath}}
+3. Navigate to the directory you cloned the git repo to: cd /opt/external/{{insertFilePathFromStep4}}
 
 4. Generate an SSH key
 
 ssh-keygen -f sshKeyPair/interactive -b 2048
 
 5. Execute the first playbook
+ansible-playbook -i inventory.yml scenarios/scenario1-playbook-base.yml --ask-pass
 
-ansible-playbook -i inventory.yml scenarios/scenario1-playbook.yml --ask-pass
+6. Execute the playbook to install the Splunk Universal Forwarder
+ansible-playbook -i inventory.yml scenarios/scenario1-playbook-splunk.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
 
 # Scenario 2: Configure Web Servers
 
-1. Execute the playbook
+1. Execute the playbook for web1
 ansible-playbook -i inventory.yml scenarios/scenario2-playbook-web1.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
 
-# Scenario 3: Configure Web Servers
+2. How should this change so it installs the correct website on to web 2?
 
-1. Execute the playbook
-ansible-playbook -i inventory.yml scenarios/scenario3-playbook-web1.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+3. Go to Splunk, see all the cool info
 
-# Scenario 4: Inventory and Ad-Hoc Commands
+# Scenario 3: Inventory and Ad-Hoc Commands
 
-1. Run ad-hoc command to get hostname
+1. Run ad-hoc command to get hostname for web1
 ansible web1 -i inventory.yml -a "hostname" --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
 
-2. Run ad-hoc command to get network info
-ansible web1 -i inventory.yml -a " ip route sh" --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+2. Run ad-hoc command to get network info for web1
+ansible web1 -i inventory.yml -a "/usr/sbin/ifconfig" --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
 
-3. Run ad-hoc command to get all users
+What subnet is this server in?
+
+3. Run ad-hoc command to get all users for web1
 ansible web1 -i inventory.yml -a "cat /etc/passwd" --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
 
-4. Run ad-hoc command to list firewall rules
+Notice any user accounts that shouldn't be there?
+
+4. Run ad-hoc command to list firewall rules for web1
 ansible web1 -i inventory.yml -a "iptables -L" --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
 
-5. Run ad-hoc command to get packages installed
+Hum, it's interesting that produced an error.  Let's see what packages are installed.
+
+5. Run ad-hoc command to get packages installed for web1
 ansible web1 -i inventory.yml -a "yum list installed" --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
 
-# Scenario 5: Configure firewall, remove unknown users, remove unwanted packages
+Do you see iptables in that list?
+
+Optional: Get the same information for web2
+
+# Scenario 4: Configure firewall, remove unknown users, remove unwanted packages
 
 1. Execute the playbook to configure the firewall
-ansible-playbook -i inventory.yml scenarios/scenario5-playbook-web1-firewall.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+ansible-playbook -i inventory.yml scenarios/scenario4-playbook-web1-firewall.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+
+How would you also allow through port 443 on web2?
 
 2. Execute the playbook to configure to remove the unwanted user
-ansible-playbook -i inventory.yml scenarios/scenario5-playbook-web1-user.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+ansible-playbook -i inventory.yml scenarios/scenario4-playbook-web1-user.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+
+How would you remove that other account on web2?
 
 3. Execute the playbook to configure to remove the unwanted package
-ansible-playbook -i inventory.yml scenarios/scenario5-playbook-web1-packages.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+ansible-playbook -i inventory.yml scenarios/scenario4-playbook-web1-packages.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+
+How can you remove tftp-server on web2?
 
 ## Useful commands
 ### Clear out lab
