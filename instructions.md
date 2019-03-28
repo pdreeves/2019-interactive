@@ -64,7 +64,10 @@ ansible web1 -i inventory.yml -a " ip route sh" --extra-vars '{ "ansible_ssh_pri
 3. Run ad-hoc command to get all users
 ansible web1 -i inventory.yml -a "cat /etc/passwd" --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
 
-4. Run ad-hoc command to get packages installed
+4. Run ad-hoc command to list firewall rules
+ansible web1 -i inventory.yml -a "iptables -L" --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+
+5. Run ad-hoc command to get packages installed
 ansible web1 -i inventory.yml -a "yum list installed" --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
 
 # Scenario 5: Configure firewall, remove unknown users, remove unwanted packages
