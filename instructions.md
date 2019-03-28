@@ -53,6 +53,20 @@ ansible-playbook -i inventory.yml scenarios/scenario2-playbook-web1.yml --extra-
 1. Execute the playbook
 ansible-playbook -i inventory.yml scenarios/scenario3-playbook-web1.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
 
+# Scenario 4: Inventory and Ad-Hoc Commands
+
+1. Run ad-hoc command to get hostname
+ansible web1 -i inventory.yml -a "hostname" --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+
+2. Run ad-hoc command to get IP address
+ansible web1 -i inventory.yml -a "hostname -I" --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+
+3. Run ad-hoc command to get all users
+ansible web1 -i inventory.yml -a "cat /etc/passwd" --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+
+4. Run ad-hoc command to get packages installed
+ansible web1 -i inventory.yml -a "yum list installed" --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+
 ## Useful commands
 ### Clear out lab
 docker container stop splunk web1 web2 ansible
