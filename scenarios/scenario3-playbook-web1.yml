@@ -1,7 +1,7 @@
 ---
 
 - name: Configure Web Server Backups #name of the playbook being run
-  hosts: web2 #what groups in the inventory.yml file we want to execute this playbook on
+  hosts: web1 #what groups in the inventory.yml file we want to execute this playbook on
   gather_facts: false #wether we want to gather facts
   become: true
   tasks: #tasks defined in this playbook
@@ -31,6 +31,14 @@
         job: /bin/find /opt/backups/????.??.??.??.?? -maxdepth 0 -type d ! -mmin -43200 -exec rm -rf {} \;
         minute: "*"
         hour: "07"
+        weekday: "*"
+
+    - name: Configre Updates
+      cron:
+        name: Update
+        job: yum update -y
+        minute: "*"
+        hour: "01"
         weekday: "*"
 
     - name: Start Cron
