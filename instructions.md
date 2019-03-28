@@ -48,6 +48,18 @@ ansible-playbook -i inventory.yml scenarios/scenario1-playbook.yml --ask-pass
 1. Execute the playbook
 ansible-playbook -i inventory.yml scenarios/scenario2-playbook-web1.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
 
-# Clear out lab
+# Scenario 3: Configure Web Servers
+
+1. Execute the playbook
+ansible-playbook -i inventory.yml scenarios/scenario3-playbook-web1.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+
+## Useful commands
+### Clear out lab
 docker container stop splunk web1 web2 ansible
 docker container rm splunk web1 web2 ansible
+
+### Get shell access to different containers
+Ansible: docker container exec --tty --interactive ansible /bin/bash
+Splunk: docker container exec --tty --interactive splunk /bin/bash
+Web1: docker container exec --tty --interactive web1 /bin/bash
+Web2: docker container exec --tty --interactive web2 /bin/bash

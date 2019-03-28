@@ -1,0 +1,39 @@
+---
+
+- name: Configure Web Server Backups #name of the playbook being run
+  hosts: web2 #what groups in the inventory.yml file we want to execute this playbook on
+  gather_facts: false #wether we want to gather facts
+  become: true
+  tasks: #tasks defined in this playbook
+
+    - name: Install Cron
+      yum:
+        name: crontabs
+        state: latest
+
+    - name: Create Backup Directory
+      file:
+        path: /opt/backups
+        mode: 0744
+        state: directory
+
+    - name: Configure Website Backups
+      cron:
+        name: Backup Website
+        job: tar -cvf /opt/backups/`date '+%Y.%m.%d.%H.%M'`-website-backups.tar /var/www/
+        minute: "*"
+        hour: "*"
+        weekday: "*"
+
+    - name: Configre Old Backups
+      cron:
+        name: Delete Old Logs
+        job: /bin/find /opt/backups/????.??.??.??.?? -maxdepth 0 -type d ! -mmin -43200 -exec rm -rf {} \;
+        minute: "*"
+        hour: "07"
+        weekday: "*"
+
+    - name: Start Cron
+      systemd:
+        name: crond
+        state: restarted
