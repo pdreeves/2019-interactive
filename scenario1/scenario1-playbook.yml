@@ -25,7 +25,7 @@
       authorized_key:
         user: "{{ansible_user}}"
         state: present
-        key: "{{lookup('file', ./sshKeyPair/interactive.pub)}} "
+        key: "{{lookup('file', '{{playbook_dir}}/../sshKeyPair/interactive.pub')}} "
 
     - name: Install screen and tcpump
       yum:
