@@ -43,6 +43,10 @@ ssh-keygen -f sshKeyPair/interactive -b 2048
 
 ansible-playbook -i inventory.yml scenarios/scenario1-playbook.yml --ask-pass
 
+# Scenario 2: Configure Web Servers
+
+1. Execute the playbook
+ansible-playbook -i inventory.yml scenarios/scenario2-playbook.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
 
 # Clear out lab
 docker container stop splunk web1 web2 ansible
