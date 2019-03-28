@@ -41,7 +41,7 @@ ssh-keygen -f sshKeyPair/interactive -b 2048
 
 5. Execute the first playbook
 
-ansible-playbook -i inventory.yml scenario1/scenario1-playbook.yml --ask-pass
+ansible-playbook -i inventory.yml scenarios/scenario1-playbook.yml --ask-pass
 
 
 # Clear out lab
