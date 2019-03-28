@@ -67,6 +67,11 @@ ansible web1 -i inventory.yml -a "cat /etc/passwd" --extra-vars '{ "ansible_ssh_
 4. Run ad-hoc command to get packages installed
 ansible web1 -i inventory.yml -a "yum list installed" --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
 
+# Scenario 5: Configure firewall, remove unknown users, remove unwanted packages
+
+1. Execute the playbook to configure the web server
+ansible-playbook -i inventory.yml scenarios/scenario5-playbook-web1.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+
 ## Useful commands
 ### Clear out lab
 docker container stop splunk web1 web2 ansible
