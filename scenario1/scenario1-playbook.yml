@@ -35,3 +35,106 @@
     - name: Set hostname
       hostname:
         name: "{{ansible_host}}"
+
+    - name: Download Splunk Universal Forward Binary
+      get_url:
+        url: "https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=7.2.5&product=universalforwarder&filename=splunkforwarder-7.2.5-088f49762779-linux-2.6-x86_64.rpm&wget=true"
+        dest: /tmp/splunkforwarder-7.2.5-088f49762779-linux-2.6-x86_64.rpm
+
+    - name: Install Splunk Universal Forwarder
+      yum:
+        name: /tmp/splunkforwarder-7.2.5-088f49762779-linux-2.6-x86_64.rpm
+        state: installed
+
+    - name: Configure Splunk user in user-seed.conf
+      ini_file:
+        path: /opt/splunkforwarder/etc/system/default/user-seed.conf
+        owner: splunk
+        mode: 0700
+        section: user_info
+        option: USERNAME
+        value: admin
+
+    - name: Configure Splunk password in user-seed.conf
+      ini_file:
+        path: /opt/splunkforwarder/etc/system/default/user-seed.conf
+        owner: splunk
+        mode: 0700
+        section: user_info
+        option: PASSWORD
+        value: "splunkPassword"
+
+    - name: Set Permissions on /opt/splunkforwarder
+      file:
+        name: /opt/splunkforwarder
+        recurse: yes
+        owner: splunk
+        group: splunk
+
+    - name: Start Splunk Forwarder For First Time
+      become_user: splunk
+      command: /opt/splunkforwarder/bin/splunk start --accept-license
+
+    - name: Verify Splunk user-seed.conf File is Removed
+      file:
+        path: /opt/splunkforwarder/etc/system/default/user-seed.conf
+        state: absent
+
+    - name: Create Splunk Cluster outputs.conf file
+      file:
+        path: /opt/splunkforwarder/etc/system/local/outputs.conf
+        owner: splunk
+        group: splunk
+        mode: 0744
+        state: touch
+
+    - name: Configure Splunk server.conf file
+      blockinfile:
+        path: /opt/splunkforwarder/etc/system/local/outputs.conf
+        block: |
+
+          [indexAndForward]
+          index = false
+
+          [tcpout]
+          defaultGroup = interactive
+          forwardedindex.filter.disable = true
+          indexAndForward = false
+
+          [tcpout:interactive]
+          server=splunk:9997
+
+    - name: Fix Directory Permissions
+      file:
+        path: "{{item}}"
+        owner: splunk
+        group: splunk
+        mode: 0755
+        state: directory
+      with_items:
+        - /opt/splunkforwarder/var
+        - /opt/splunkforwarder/var/lib
+        - /opt/splunkforwarder/var/lib/splunk
+
+    - name: Set Permissions on /var/log Directories
+      acl:
+        path: /var/log
+        entity: splunk
+        etype: user
+        permissions: rx
+        default: yes
+        recursive: yes
+        state: present
+
+    - name: Set Permissions on /var/log Directories
+      acl:
+        path: /var/log
+        entity: splunk
+        etype: user
+        permissions: rx
+        recursive: yes
+        state: present
+
+    - name: Restart Splunk Forwarder to Pick Up Config Changes
+      become_user: splunk
+      command: /opt/splunkforwarder/bin/splunk restart
