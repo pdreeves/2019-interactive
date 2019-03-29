@@ -10,3 +10,7 @@
 2A. It's probably 172.17.0.1, but may be different if you have a custom docker network set up.
 
 2B. It should be the browser you used to access the site.
+
+3A. Change "web1" to "web2" on line 4.
+
+3B. Change "web1" to "web2" on line 16.

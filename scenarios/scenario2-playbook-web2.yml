@@ -1,7 +1,7 @@
 ---
 
 - name: Configure Web Server #name of the playbook being run
-  hosts: web1 #what groups in the inventory.yml file we want to execute this playbook on
+  hosts: web2 #what groups in the inventory.yml file we want to execute this playbook on
   gather_facts: false #wether we want to gather facts
   become: true
   tasks: #tasks defined in this playbook
@@ -13,7 +13,7 @@
 
     - name: Copy Websites
       copy:
-        src: "../files/web1/index.html"
+        src: "../files/web2/index.html"
         dest: "/var/www/html/index.html"
         mode: 0755
 

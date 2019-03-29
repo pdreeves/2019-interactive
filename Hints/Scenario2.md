@@ -8,3 +8,7 @@
 1C. Look at the new config being defined in the task "Configure Splunk inputs.conf file"
 
 2A & 2B. Click the triangle to the left of the event and look at the clientip and useragent field values.
+
+3A. Make sure it's running on the right host.
+
+3B. Make sure the correct file is being copied over using the copy module.
