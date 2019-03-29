@@ -4,7 +4,7 @@ Ansible also supports ad-hoc commands that can be run outside of a playbook.  Th
 
 You're security department is doing an audit of server configurations.  They need to know hostnames, IP addresses, user accounts, firewall rules, and packages installed for all servers.  Normally this would be tedius, but with Ansible it's much easier.  Let's try ad-hoc commands out by gathering some information about our servers!
 
-_Hints for this scenario are located in the scenario3.md file in the Hints folder, answers in the scenario3.md file in the Answers folder, and completed Ansible playbooks in the completedScenarios folder._
+_Hints for this scenario are located in the scenario3.md file in the Hints folder, answers in the scenario3.md file in the Answers folder, and completed commands in the completedScenarios folder._
 
 ## Inventory
 1. Get the hostname for web1:

@@ -1,0 +1,17 @@
+---
+
+- name: Remove Web Server Packages #name of the playbook being run
+  hosts: webServers #what groups in the inventory.yml file we want to execute this playbook on
+  gather_facts: false #wether we want to gather facts
+  become: true
+  tasks: #tasks defined in this playbook
+
+    - name: Remove telnet-server
+      yum:
+        name: telnet-server
+        state: absent
+
+    - name: Remove tftp-server
+      yum:
+        name: tftp-server
+        state: absent

@@ -1,12 +1,12 @@
 ---
 
-- name: Secure Web Server #name of the playbook being run
+- name: Remove Web Server Packages #name of the playbook being run
   hosts: web1 #what groups in the inventory.yml file we want to execute this playbook on
   gather_facts: false #wether we want to gather facts
   become: true
   tasks: #tasks defined in this playbook
 
-    - name: Remove secret user
-      user:
-        name: secret
+    - name: Remove telnet-server
+      yum:
+        name: telnet-server
         state: absent

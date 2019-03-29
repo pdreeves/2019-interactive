@@ -1,7 +1,7 @@
 ---
 
-- name: Secure Web Server #name of the playbook being run
-  hosts: web1 #what groups in the inventory.yml file we want to execute this playbook on
+- name: Set Up Web Server Firewalls #name of the playbook being run
+  hosts: web2 #what groups in the inventory.yml file we want to execute this playbook on
   gather_facts: false #wether we want to gather facts
   become: true
   tasks: #tasks defined in this playbook
@@ -24,5 +24,13 @@
         chain: INPUT
         source: 0.0.0.0/0
         destination_port: 80
+        protocol: tcp
+        jump: ACCEPT
+
+    - name: Allow Access to Website
+      iptables:
+        chain: INPUT
+        source: 0.0.0.0/0
+        destination_port: 443
         protocol: tcp
         jump: ACCEPT
