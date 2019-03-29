@@ -16,10 +16,10 @@
         name: "*"
         state: latest
 
-    - name: Add web developer user
+    - name: Add developer user
       user:
-        name: webDeveloper
-        comment: Web developer user
+        name: developer
+        comment: Developer user
 
     - name: Add SSH Key Login
       authorized_key:
