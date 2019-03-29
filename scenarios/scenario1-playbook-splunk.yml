@@ -32,7 +32,7 @@
         mode: 0700
         section: user_info
         option: PASSWORD
-        value: "splunkPassword"
+        value: "interactive"
 
     - name: Set Permissions on /opt/splunkforwarder
       file:
@@ -50,7 +50,7 @@
         path: /opt/splunkforwarder/etc/system/default/user-seed.conf
         state: absent
 
-    - name: Create Splunk Cluster outputs.conf file
+    - name: Create Splunk outputs.conf file
       file:
         path: /opt/splunkforwarder/etc/system/local/outputs.conf
         owner: splunk
