@@ -1,0 +1,62 @@
+---
+
+- name: Configure Web Server #name of the playbook being run
+  hosts: web2 #what groups in the inventory.yml file we want to execute this playbook on
+  gather_facts: false #wether we want to gather facts
+  become: true
+  tasks: #tasks defined in this playbook
+
+    - name: Install Apache
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Copy Websites
+      copy:
+        src: "../files/web2/index.html"
+        dest: "/var/www/html/index.html"
+        mode: 0755
+
+    - name: Start Apache
+      systemd:
+        name: httpd
+        state: restarted
+
+    - name: Configure Splunk inputs.conf file
+      blockinfile:
+        path: /opt/splunkforwarder/etc/system/local/inputs.conf
+        block: |
+          [monitor:///var/log/yum.log]
+          index = linux
+          sourcetype = syslog
+
+          [monitor:///var/log/httpd/error_log]
+          index = web
+          sourcetype = apache_error
+
+          [monitor:///var/log/httpd/access_log]
+          index = web
+          sourcetype = access_common
+
+    - name: Set Permissions on /var/log Directories
+      acl:
+        path: /var/log
+        entity: splunk
+        etype: user
+        permissions: rx
+        default: yes
+        recursive: yes
+        state: present
+
+    - name: Set Permissions on /var/log Directories
+      acl:
+        path: /var/log
+        entity: splunk
+        etype: user
+        permissions: rx
+        recursive: yes
+        state: present
+
+    - name: Restart Splunk Forwarder to Pick Up Config Changes
+      become_user: splunk
+      command: /opt/splunkforwarder/bin/splunk restart
