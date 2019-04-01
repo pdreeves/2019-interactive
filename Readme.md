@@ -32,6 +32,7 @@ We're going to get our lab environment set up.  To do that we need to...
   _For example, if I unzipped the folder in C:\2019-interactive-master: the command would be..._
   docker container run --detach --link=web1 --link=web2 --hostname ansible --name ansible --interactive --tty  --volume C:\\2019-interactive-master:/opt/external pdreeves/2019-interactive-ansible
 
+9. Navigate to the Instructions folder and start with scenario 1
 
 ## Startup Instructions for macOS and Linux
 We're going to get our lab environment set up.  To do that we need to...
@@ -62,8 +63,9 @@ We're going to get our lab environment set up.  To do that we need to...
   _For example, if I unzipped the folder in /Users/pdreeves/Downloads/2019-interactive-master the command would be..._
   docker container run --detach --link=web1 --link=web2 --hostname ansible --name ansible --interactive --tty  --volume /Users/pdreeves/Downloads/2019-interactive-master:/opt/external pdreeves/2019-interactive-ansible
 
+8. Navigate to the Instructions folder and start with scenario 1
 
-## Reset Instructions for macOS
+## Lab Reset Instructions
 It's ok if you make a mistake and need to re-set the lab, that's the great thing about containers!
 
 1. Run these commands to stop and delete the containers:
@@ -80,4 +82,4 @@ It's ok if you make a mistake and need to re-set the lab, that's the great thing
 
   docker container run --detach --link=splunk --privileged --hostname web2 --name web2 --interactive --tty --publish 82:80 --volume /sys/fs/cgroup:/sys/fs/cgroup:ro 2019-interactive-web
 
-  docker container run --detach --link=web1 --link=web2 --hostname ansible --name ansible --interactive --tty  --volume {{unzippedFolder}}:/opt/external 2019-interactive-ansibl
+  docker container run --detach --link=web1 --link=web2 --hostname ansible --name ansible --interactive --tty  --volume {{unzippedFolder}}:/opt/external 2019-interactive-ansible
