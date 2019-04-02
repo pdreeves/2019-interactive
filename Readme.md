@@ -44,7 +44,7 @@ We're going to get our lab environment set up.  To do that we need to...
 
 3. Start Docker if it's not already running
 
-4. Start the Splunk docker container bu running this command:
+4. Start the Splunk docker container by running this command:
 
   docker container run --detach --hostname splunk --name splunk --interactive --tty --publish 8000:8000 --env SPLUNK_PASSWORD="interactive" pdreeves/2019-interactive-splunk
 
