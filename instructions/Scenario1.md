@@ -42,7 +42,7 @@ We'll need to modify and execute the base server config by...
 
   **D. What Ansible modules is it using?**
 
-6. Execute the base Ansible playbook:
+6. Make the required change so that the playbook runs on the web servers, then execute the base Ansible playbook:
 
   ansible-playbook -i inventory.yml scenarios/scenario1-playbook-base.yml --ask-pass
 
