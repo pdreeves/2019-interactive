@@ -30,7 +30,9 @@ ssh web2
 
 4. Generate the SSH key that will be used for password-less login to these servers for the rest of the lab:
 
-    ssh-keygen -f sshKeyPair/interactive -b 2048
+```
+ssh-keygen -f sshKeyPair/interactive -b 2048
+```
 
   _There's no need to have a passphrase on this key since this will just be used for the lab._
 
@@ -50,7 +52,9 @@ ssh web2
 
 6. Execute the base Ansible playbook:
 
-  ansible-playbook -i inventory.yml scenarios/scenario1-playbook-base.yml --ask-pass
+```
+ansible-playbook -i inventory.yml scenarios/scenario1-playbook-base.yml --ask-pass
+```
 
   _The password is 'interactive'._
 
@@ -69,7 +73,9 @@ Now that the base configuration is installed we want to install and configure th
 
 2. Execute the Ansible playbook to configure the Splunk Universal Forwarder:
 
-  ansible-playbook -i inventory.yml scenarios/scenario1-playbook-splunk.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+```
+ansible-playbook -i inventory.yml scenarios/scenario1-playbook-splunk.yml --extra-vars '{ "ansible_ssh_private_key_file":"sshKeyPair/interactive"}'
+```
 
   **A. Why don't we have to specify the password this time?**
 
