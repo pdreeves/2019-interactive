@@ -1,0 +1,28 @@
+---
+
+- name: Set Up Web Server Firewalls #name of the playbook being run
+  hosts: web1 #what groups in the inventory.yml file we want to execute this playbook on
+  gather_facts: false #wether we want to gather facts
+  become: true
+  tasks: #tasks defined in this playbook
+
+    - name: Install Iptables
+      yum:
+        name: iptables
+        state: latest
+
+    - name: Allow SSH in from local subnet
+      iptables:
+        chain: INPUT
+        source: 172.17.0.0/16
+        destination_port: 22
+        protocol: tcp
+        jump: ACCEPT
+
+    - name: Allow Access to Website
+      iptables:
+        chain: INPUT
+        source: 0.0.0.0/0
+        destination_port: 80
+        protocol: tcp
+        jump: ACCEPT
