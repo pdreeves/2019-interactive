@@ -9,22 +9,28 @@ We'll need to modify and execute the base server config by...
 
 1. Creating a shell connection (bash) to your Ansible server:
 
-  docker container exec --tty --interactive ansible /bin/bash
+```
+docker container exec --tty --interactive ansible /bin/bash
+```
 
 2. Navigating to the folder that has the Ansible playbooks:
 
-  cd /opt/external
+```
+cd /opt/external
+```
 
 3. Verifying that the Ansible server can ssh in to the servers:
 
-  ssh web1
-  ssh web2
+```
+ssh web1
+ssh web2
+```
 
   Accept the SSH key by typing 'yes' and hitting return, but use CTRL + C to stop the command.  _We won't be logging in to them this way, we're only testing network connectivity._
 
 4. Generate the SSH key that will be used for password-less login to these servers for the rest of the lab:
 
-  ssh-keygen -f sshKeyPair/interactive -b 2048
+    ssh-keygen -f sshKeyPair/interactive -b 2048
 
   _There's no need to have a passphrase on this key since this will just be used for the lab._
 
